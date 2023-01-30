@@ -8,6 +8,7 @@ class PaystackTerminal
 
     private $path;
     private $secret_key;
+    private $reference;
 
     public function __construct($secret_key)
     {
@@ -55,5 +56,22 @@ $hashed_body";*/
     {
         $this->reference = ReferenceGenerator::getHashedToken();
         return $this;
+    }
+
+    public function formFieldResponse(){
+        return [
+            'action' => 'collect',
+            'request_id' => $this->reference,
+            'title' => 'Get Student Details',
+            'fields' => [[
+                'type' => 'numeric',
+                'id' => 'student_id',
+                'title' => 'Student ID',
+            ], [
+                'type' => 'numeric',
+                'id' => 'amount',
+                'title' => 'Amount',]
+            ]
+        ];
     }
 }
