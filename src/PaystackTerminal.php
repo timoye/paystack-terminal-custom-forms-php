@@ -60,20 +60,12 @@ class PaystackTerminal
         return $this;
     }
 
-    public function formFieldResponse(){
+    public function formFieldResponse($fields,$title){
         return [
             'action' => 'collect',
             'request_id' => $this->reference,
-            'title' => 'Get Student Details',
-            'fields' => [[
-                'type' => 'numeric',
-                'id' => 'student_id',
-                'title' => 'Student ID',
-            ], [
-                'type' => 'numeric',
-                'id' => 'amount',
-                'title' => 'Amount',]
-            ]
+            'title' => $title,
+            'fields' => $fields
         ];
     }
 
@@ -90,6 +82,10 @@ class PaystackTerminal
         //if no student exist with $this->student_id, throw exception
         $this->student=['id'=>$this->student_id,'name'=>'Timothy Soladoye','level'=>'400 Level'];//sample student data
         return $this;
+    }
+
+    public function setAmount(){
+
     }
 
     public function processFormResponse()

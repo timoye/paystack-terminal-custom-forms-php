@@ -9,10 +9,12 @@ use Illuminate\Support\Facades\Response;
 function formFields(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
+        $fields=getFields();
+        $title='Get Student Details';
         $form_fields_response = (new PaystackTerminal($secret_key))
             ->authCheck($request)
             ->generateReference()
-            ->formFieldResponse();
+            ->formFieldResponse($fields,$title);
     }catch(\Exception $e){
         return [
             'status'=>'fail',
@@ -24,11 +26,25 @@ function formFields(Request $request){
 
 }
 
+function getFields(){
+    return [[
+        'type' => 'numeric',
+        'id' => 'student_id',
+        'title' => 'Student ID',
+    ], [
+        'type' => 'numeric',
+        'id' => 'amount',
+        'title' => 'Amount',]
+    ];
+}
+
 function processForm(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
         $process_form_response = (new PaystackTerminal($secret_key))
             ->authCheck($request)
+            ->setData($request)
+            ->setAmount($naira)
             ->setData($request)
             ->processFormResponse();
     }catch(\Exception $e){
