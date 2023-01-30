@@ -1,6 +1,6 @@
 <?php
 
-namespace Timoye\Paystack;
+namespace Timoye\PaystackTerminal;
 
 
 use Carbon\Carbon;

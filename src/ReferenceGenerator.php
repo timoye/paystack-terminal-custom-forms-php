@@ -11,7 +11,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Timoye\Paystack;
+namespace Timoye\PaystackTerminal;
 
 
 class ReferenceGenerator

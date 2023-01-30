@@ -2,7 +2,7 @@
 
 require_once 'vendor/autoload.php';
 
-use Timoye\Paystack\PaystackTerminal;
+use Timoye\PaystackTerminal\PaystackTerminal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
