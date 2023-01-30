@@ -27,6 +27,7 @@ function formFields(Request $request){
 }
 
 function getFormFields(){
+    //you can add as many inputs to collect data from customer using the POS Terminal
     return [[
         'type' => 'numeric',
         'id' => 'student_id',
