@@ -2,7 +2,8 @@
     "name": "timoye/paystack-terminal-custom-forms-php",
     "description": "PHP Service to Interact with Paystack Terminal using Custom Forms",
     "require": {
-        "nesbot/carbon": "^2.66"
+        "nesbot/carbon": "^2.66",
+        "illuminate/http": "^8.83"
     },
     "authors": [
         {

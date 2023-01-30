@@ -3,6 +3,8 @@
 require_once 'vendor/autoload.php';
 
 use Timoye\Paystack\PaystackTerminal;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 
 function formFields(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
@@ -17,7 +19,7 @@ function formFields(Request $request){
             'details'=>$e->getMessage()
         ];
     }
-    return response()->json($form_fields_response)
+    return Response::json($form_fields_response)
         ->withHeaders((new PaystackTerminal($secret_key))->getHeaderArray($form_fields_response));
 
 }
@@ -35,7 +37,7 @@ function processForm(Request $request){
             'details'=>$e->getMessage()
         ];
     }
-    return response()->json($process_form_response)
+    return Response::json($process_form_response)
         ->withHeaders((new PaystackTerminal($secret_key))->getHeaderArray($process_form_response));
 
 }
