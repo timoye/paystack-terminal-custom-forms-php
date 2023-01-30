@@ -4,16 +4,9 @@ require_once 'vendor/autoload.php';
 
 use Timoye\Paystack\PaystackTerminal;
 
-
-$class = new PaystackTerminal();
-
-
-//$class->receive();
-
-public function formFields(Request  $request){
-
+function formFields(Request  $request){
+    $secret_key='xxxx -xxx';//get key from env or config
     try{
-        $secret_key='xxxx -xxx';//get key from env or config
         $form_fields_response = (new PaystackTerminal($secret_key))
             ->authCheck($request)
             ->generateReference()
