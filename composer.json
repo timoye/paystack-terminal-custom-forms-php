@@ -1,0 +1,13 @@
+{
+    "name": "timoye/paystack-terminal-custom-forms-php",
+    "description": "PHP Service to Interact with Paystack Terminal using Custom Forms",
+    "require": {
+        "nesbot/carbon": "^2.66"
+    },
+    "authors": [
+        {
+            "name": "Timothy Soladoye",
+            "email": "tim.soladoye@gmail.com"
+        }
+    ]
+}
