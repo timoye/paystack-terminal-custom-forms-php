@@ -11,8 +11,6 @@ class PaystackTerminal
     private $path;
     private $secret_key;
     private $reference;
-    private $student_id;
-    private $student;
     private $amount;
     private $amount_kobo;
 
@@ -60,7 +58,7 @@ class PaystackTerminal
         return $this;
     }
 
-    public function formFieldResponse($fields,$title){
+    public function formFieldResponse($fields, $title){
         return [
             'action' => 'collect',
             'request_id' => $this->reference,
@@ -71,40 +69,23 @@ class PaystackTerminal
 
 
     //process form request
-    public function setData($request)
-    {
-        $this->student_id = $request->fields['student_id'];
-        $this->amount = $request->fields['amount'] ?? 5000; //you may decide not to collect amount from form and pass it here
-        $this->amount_kobo = $this->amount * 100;
-        $this->reference = $request->request_id;
 
-        //$student=$this->getStudentDetailsFromDB();
-        //if no student exist with $this->student_id, throw exception
-        $this->student=['id'=>$this->student_id,'name'=>'Timothy Soladoye','level'=>'400 Level'];//sample student data
+    public function setAmount($naira_amount){
+        $this->amount = $naira_amount;
+        $this->amount_kobo = $this->amount * 100;
+        return $this;
+    }
+    public function setReference($reference)
+    {
+        $this->reference = $reference;
         return $this;
     }
 
-    public function setAmount(){
-
-    }
-
-    public function processFormResponse()
+    public function processFormResponse($fields)
     {
         return [
             'action' => 'process',
-            'fields' => [[
-                'title' => 'Student ID',
-                'value' => $this->student_id
-            ], [
-                'title' => 'Student Name',
-                'value' => $this->student['name']
-            ], [
-                'title' => 'Student Current Level',
-                'value' => $this->student['level']
-            ], [
-                'title' => 'Amount',
-                'value' => number_format($this->amount, 2)
-            ]],
+            'fields' => $fields,
             'amount' => $this->amount_kobo,
             'metadata' => [
                 'reference' => $this->reference

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Response;
 function formFields(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
-        $fields=getFields();
+        $fields=getFormFields();
         $title='Get Student Details';
         $form_fields_response = (new PaystackTerminal($secret_key))
             ->authCheck($request)
@@ -26,7 +26,7 @@ function formFields(Request $request){
 
 }
 
-function getFields(){
+function getFormFields(){
     return [[
         'type' => 'numeric',
         'id' => 'student_id',
@@ -41,12 +41,16 @@ function getFields(){
 function processForm(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
+        $data_entered_in_fields=$request->fields;
+        $student=getStudentDetails();
+        $amount=getAmount($data_entered_in_fields,$student);
+        $fields=buildFields($student,$amount);
+
         $process_form_response = (new PaystackTerminal($secret_key))
             ->authCheck($request)
-            ->setData($request)
-            ->setAmount($naira)
-            ->setData($request)
-            ->processFormResponse();
+            ->setAmount($amount)
+            ->setReference($request->request_id)
+            ->processFormResponse($fields);
     }catch(\Exception $e){
         return [
             'status'=>'fail',
@@ -56,5 +60,38 @@ function processForm(Request $request){
     return Response::json($process_form_response)
         ->withHeaders((new PaystackTerminal($secret_key))->getHeaderArray($process_form_response));
 
+}
+
+function getStudentDetails(){
+    //$student=$this->getStudentDetailsFromDB();
+    //if no student exist with $this->student_id, throw exception
+    //select * from students where id = $data_entered_in_fields['student_id'];
+    //return Student::where('id',$data_entered_in_fields['student_id'])->first();
+    return ['id'=>$this->student_id,'name'=>'Timothy Soladoye','level'=>'400 Level','fees'=>35000];//sample student data
+}
+
+function getAmount($data,$student){
+    $amount=$data['amount']; //if you passes amount in the form_field
+    $amount=$student['fees']; //if you want to get the amount from your database
+    //this is the amount that will be charged to the customer
+    return $amount;
+}
+
+function buildFields($student,$amount){
+    //you can add as many fields as you want, this will be displayed on the POS Terminals for confirmation before payment
+   return [[
+        'title' => 'Student ID',
+        'value' => $student['student_id']
+    ], [
+        'title' => 'Student Name',
+        'value' =>  $student['name']
+    ], [
+        'title' => 'Student Current Level',
+        'value' =>  $student['level']
+    ], [
+        'title' => 'Amount',
+        'value' => number_format($amount, 2)
+    ]
+   ];
 }
 
