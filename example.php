@@ -18,7 +18,7 @@ function formFields(Request  $request){
         ];
     }
     return response()->json($form_fields_response)
-        ->withHeaders((new PaystackTerminal())->getHeaderArray($form_fields_response));
+        ->withHeaders((new PaystackTerminal($secret_key))->getHeaderArray($form_fields_response));
 
 }
 

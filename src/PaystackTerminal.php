@@ -3,6 +3,8 @@
 namespace Timoye\Paystack;
 
 
+use Carbon\Carbon;
+
 class PaystackTerminal
 {
 
@@ -43,10 +45,6 @@ class PaystackTerminal
 
     public function createHMACHash($array)
     {
-        /*        $to_encode = "$method
-$this->path
-$date
-$hashed_body";*/
         $to_encode=implode("\n", $array);
         $to_encode = trim($to_encode);
         return hash_hmac('sha512', $to_encode, $this->secret_key, false);
@@ -117,4 +115,19 @@ $hashed_body";*/
             ]
         ];
     }
+
+    public function getHeaderArray($body)
+    {
+        $date = Carbon::now()->toRfc7231String();
+        $new_body = json_encode($body, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        $hashed_body = $this->createMD5Hash($new_body);
+        $hashed=$this->createHMACHash([$date,$hashed_body]);
+        return [
+            "date" => $date,
+            'authorization' => "Bearer $hashed",
+            'Content-Type' => 'application/json'
+        ];
+    }
+
 }
