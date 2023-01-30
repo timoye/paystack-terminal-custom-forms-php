@@ -22,7 +22,7 @@ class PaystackTerminal
         $method = $request->method();
 
         $header_array = explode(' ', $header_bearer_auth);
-        $header_auth = $header_array[1] ?? 'token_from_auth';
+        $header_auth = $header_array[1] ?? 'token_from_paystack';
 
         $request_body = json_encode($request->all(), JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         $body_to_hash = $method != 'GET' ? $request_body : '';
@@ -41,5 +41,9 @@ $hashed_body";
         return $this;
     }
 
-
+    public function generateReference()
+    {
+        $this->reference = ReferenceGenerator::getHashedToken();
+        return $this;
+    }
 }
