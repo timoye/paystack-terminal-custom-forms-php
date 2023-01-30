@@ -9,6 +9,10 @@ class PaystackTerminal
     private $path;
     private $secret_key;
     private $reference;
+    private $student_id;
+    private $student;
+    private $amount;
+    private $amount_kobo;
 
     public function __construct($secret_key)
     {
@@ -71,6 +75,45 @@ $hashed_body";*/
                 'type' => 'numeric',
                 'id' => 'amount',
                 'title' => 'Amount',]
+            ]
+        ];
+    }
+
+
+    //process form request
+    public function setData($request)
+    {
+        $this->student_id = $request->fields['student_id'];
+        $this->amount = $request->fields['amount'] ?? 5000; //you may decide not to collect amount from form and pass it here
+        $this->amount_kobo = $this->amount * 100;
+        $this->reference = $request->request_id;
+
+        //$student=$this->getStudentDetailsFromDB();
+        //if no student exist with $this->student_id, throw exception
+        $this->student=['id'=>$this->student_id,'name'=>'Timothy Soladoye','level'=>'400 Level'];//sample student data
+        return $this;
+    }
+
+    public function processFormResponse()
+    {
+        return [
+            'action' => 'process',
+            'fields' => [[
+                'title' => 'Student ID',
+                'value' => $this->student_id
+            ], [
+                'title' => 'Student Name',
+                'value' => $this->student['name']
+            ], [
+                'title' => 'Student Current Level',
+                'value' => $this->student['level']
+            ], [
+                'title' => 'Amount',
+                'value' => number_format($this->amount, 2)
+            ]],
+            'amount' => $this->amount_kobo,
+            'metadata' => [
+                'reference' => $this->reference
             ]
         ];
     }
