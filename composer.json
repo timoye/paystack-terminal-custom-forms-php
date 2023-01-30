@@ -9,5 +9,10 @@
             "name": "Timothy Soladoye",
             "email": "tim.soladoye@gmail.com"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Timoye\\Paystack\\": "src/"
+        }
+    }
 }
