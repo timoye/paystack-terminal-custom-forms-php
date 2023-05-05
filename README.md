@@ -1,2 +1,2 @@
-# Paystack POS Terminal Custom Form php Package
+# Paystack POS Terminal Custom Form PHP Package
 
