@@ -4,7 +4,7 @@ This is a PHP package for [Paystack Terminal](https://paystack.com/terminal/) **
 
 Paystack Terminal enables you accept payment from your customers. The Terminal is popularly known as POS device
 
-#Steps
+## Steps
 1. Create 2 endpoints on your application
 -  GET /paystack/biller 
 -  POST /paystack/biller
