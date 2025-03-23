@@ -6,6 +6,9 @@ use Timoye\PaystackTerminal\PaystackTerminal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 
+/*
+ * This method will return the response with the list of input fields to be displayed for the customer to fill
+ */
 function formFields(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
@@ -39,6 +42,11 @@ function getFormFields(){
     ];
 }
 
+/*
+ * This method will receive the response of customer inputs to the input fields displayed above
+ * It will also return a Review page, You can pass any details you want to the review page.
+ * You can pass records from your database to display on review, for customer to confirm his records
+ */
 function processForm(Request $request){
     $secret_key='xxxx -xxx';//get key from env or config
     try{
